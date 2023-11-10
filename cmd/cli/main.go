@@ -5,8 +5,10 @@ import (
 	"flag"
 	"fmt"
 	"io"
+	// "strings"
 
 	"net/http"
+	"net/url"
 
 	searchQueries "github.com/cocacolasante/googlecli/search"
 )
@@ -14,20 +16,21 @@ import (
 
 
 func main() {
-	searchString := flag.String("search", "google.com", "the search string")
+	var phrase string
+	flag.StringVar(&phrase, "search", "google.com", "the search string")
 	startIndex := flag.Int("start", 1, "page to start at")
-	
-
 	flag.Parse()
 
-	search := searchString
+	
+	search := url.QueryEscape(phrase)
+	
 	startIn := startIndex
-	fmt.Printf("Search string is: %s\n", string(*search))
+	fmt.Printf("Search string is: %s\n", string(search))
 	fmt.Printf("Search start index is: %x\n", *startIn)
 
 	
 
-	queryStruct := searchQueries.NewQuery(*search, *startIn)
+	queryStruct := searchQueries.NewQuery(search, *startIn)
 	searchQuery := queryStruct.NewURL()
 	fmt.Println(searchQuery)
 
@@ -54,7 +57,8 @@ func main() {
 		fmt.Printf("Error umarshalling response body: %s\n", err)
 		return
 	}
-
+	
+	
 	for _, item := range items.Items {
 		fmt.Printf("Name: %s\nLink: %s\n\n", item.Title, item.Link)
 	}
