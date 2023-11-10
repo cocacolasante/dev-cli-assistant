@@ -34,7 +34,7 @@ func (s *SearchQuery) NewURL() string {
 	}
 	API := os.Getenv("SEARCH_API_KEY")
 
-	QUERY_URL := fmt.Sprintf("https://www.googleapis.com/customsearch/v1?key=%s&cx=017576662512468239146:omuauf_lfve&q=%s&start=1", API, s.SearchTerm)
+	QUERY_URL := fmt.Sprintf("https://www.googleapis.com/customsearch/v1?key=%s&cx=f29208640b52548c8&q=%s&start=1", API, s.SearchTerm)
 	
 	return QUERY_URL
 
