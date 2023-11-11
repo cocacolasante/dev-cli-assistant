@@ -12,7 +12,7 @@ const GOOGLE_URL = "https://www.googleapis.com/customsearch/v1?key=%s&q=%s}&star
 
 type SearchQuery struct {
 	SearchTerm string `json:"search_terms"`
-	StartIndex int    `json:"start_index"`
+	TargetSite string `json:"target_site"`
 }
 
 type ResponsePayload struct {
@@ -20,10 +20,12 @@ type ResponsePayload struct {
 	Link  string `json:"link"`
 }
 
-func NewQuery(search string, start int) *SearchQuery {
+func NewQuery(args ...string) *SearchQuery {
+	search := args[0]
+	targetSite := args[1]
 	return &SearchQuery{
 		SearchTerm: search,
-		StartIndex: start,
+		TargetSite: targetSite,
 	}
 }
 
@@ -33,6 +35,11 @@ func (s *SearchQuery) NewURL() string {
 		log.Fatal("Error loading .env file")
 	}
 	API := os.Getenv("SEARCH_API_KEY")
+
+	if s.TargetSite != ""{
+		return fmt.Sprintf("https://www.googleapis.com/customsearch/v1?key=%s&cx=f29208640b52548c8&q=%s&start=1&siteSearch=%s&siteSearchFilter=i", API, s.SearchTerm, s.TargetSite)
+
+	}
 
 	QUERY_URL := fmt.Sprintf("https://www.googleapis.com/customsearch/v1?key=%s&cx=f29208640b52548c8&q=%s&start=1", API, s.SearchTerm)
 	

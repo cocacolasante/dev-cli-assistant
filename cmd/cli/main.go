@@ -18,19 +18,18 @@ import (
 func main() {
 	var phrase string
 	flag.StringVar(&phrase, "search", "google.com", "the search string")
-	startIndex := flag.Int("start", 1, "page to start at")
+	targetSite := flag.String("site", "", "Search results for a specific site")
+
 	flag.Parse()
 
 	
 	search := url.QueryEscape(phrase)
 	
-	startIn := startIndex
 	fmt.Printf("Search string is: %s\n", string(search))
-	fmt.Printf("Search start index is: %x\n", *startIn)
 
-	
 
-	queryStruct := searchQueries.NewQuery(search, *startIn)
+
+	queryStruct := searchQueries.NewQuery(search, *targetSite)
 	searchQuery := queryStruct.NewURL()
 	fmt.Println(searchQuery)
 
