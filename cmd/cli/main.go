@@ -5,6 +5,7 @@ import (
 	"flag"
 	"fmt"
 	"io"
+	"log"
 
 	// "strings"
 
@@ -12,12 +13,14 @@ import (
 	"net/url"
 
 	"github.com/cocacolasante/googlecli/instructions"
+	"github.com/cocacolasante/googlecli/openaiapi"
 	searchQueries "github.com/cocacolasante/googlecli/search"
 )
 
 
 
 func main() {
+	//  GOOGLE API FLAGS
 	var phrase string
 	var excludeterm string
 	var helpFlag bool 
@@ -30,6 +33,12 @@ func main() {
 	flag.BoolVar(&helpFlag, "help", false, "print usage instructions")
 	flag.BoolVar(&descriptionFlag, "description", false, "prints cli description")
 
+	// OPEN AI FLAGS
+	var usingAi bool
+	var content string
+	flag.BoolVar(&usingAi, "ai", false, "Use this call to get ai input")
+	flag.StringVar(&content, "question", "", "content to ask ai")
+
 	flag.Parse()
 
 	if helpFlag {
@@ -39,6 +48,18 @@ func main() {
 
 	if descriptionFlag {
 		instructions.PrintDescription()
+		return
+	}
+
+	if usingAi {
+		
+		aiReq := openaiapi.NewAiRequest(content)
+		if aiReq.Content == ""{
+			log.Fatal("empty ai request")
+			return 
+		}
+		
+		aiReq.ApiCall()
 		return
 	}
 	
