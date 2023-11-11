@@ -13,6 +13,8 @@ const GOOGLE_URL = "https://www.googleapis.com/customsearch/v1?key=%s&q=%s}&star
 type SearchQuery struct {
 	SearchTerm string `json:"search_terms"`
 	TargetSite string `json:"target_site"`
+	
+	Sort string 
 }
 
 type ResponsePayload struct {
@@ -20,11 +22,11 @@ type ResponsePayload struct {
 	Link  string `json:"link"`
 }
 
-func NewQuery(search string, args ...string) *SearchQuery {
-	targetSite := args[0]
+func NewQuery(search string, targetSite string, sort string) *SearchQuery {
 	return &SearchQuery{
 		SearchTerm: search,
 		TargetSite: targetSite,
+		Sort: sort,
 	}
 }
 
@@ -42,9 +44,15 @@ func (s *SearchQuery) NewURL() string {
 	
 	if s.TargetSite != ""{
 		QUERY_URL += fmt.Sprintf("&siteSearch=%s&siteSearchFilter=i", s.TargetSite)
+		
+	}
+	if s.Sort == "a" {
+		QUERY_URL += "&sort=date-sdate:a"
+	}
+	if s.Sort == "d" {
+		QUERY_URL += "&sort=date-sdate:d"
 
 	}
-
 	
 	return QUERY_URL
 

@@ -19,6 +19,7 @@ func main() {
 	var phrase string
 	flag.StringVar(&phrase, "search", "google.com", "the search string")
 	targetSite := flag.String("site", "", "Search results for a specific site")
+	sort := flag.String("sort", "", "Sort result by date")
 
 	flag.Parse()
 
@@ -29,7 +30,7 @@ func main() {
 
 
 
-	queryStruct := searchQueries.NewQuery(search, *targetSite)
+	queryStruct := searchQueries.NewQuery(search, *targetSite, *sort)
 	searchQuery := queryStruct.NewURL()
 	fmt.Println(searchQuery)
 
