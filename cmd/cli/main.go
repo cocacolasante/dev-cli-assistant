@@ -5,11 +5,13 @@ import (
 	"flag"
 	"fmt"
 	"io"
+
 	// "strings"
 
 	"net/http"
 	"net/url"
 
+	"github.com/cocacolasante/googlecli/instructions"
 	searchQueries "github.com/cocacolasante/googlecli/search"
 )
 
@@ -17,12 +19,20 @@ import (
 
 func main() {
 	var phrase string
+	var helpFlag bool 
+
 	flag.StringVar(&phrase, "search", "google.com", "the search string")
 	targetSite := flag.String("site", "", "Search results for a specific site")
 	sort := flag.String("sort", "", "Sort result by date")
+	flag.BoolVar(&helpFlag, "help", false, "print usage instructions")
+
 
 	flag.Parse()
 
+	if helpFlag {
+		instructions.PrintHelpMenu()
+		return
+	}
 	
 	search := url.QueryEscape(phrase)
 	
