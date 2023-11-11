@@ -20,9 +20,8 @@ type ResponsePayload struct {
 	Link  string `json:"link"`
 }
 
-func NewQuery(args ...string) *SearchQuery {
-	search := args[0]
-	targetSite := args[1]
+func NewQuery(search string, args ...string) *SearchQuery {
+	targetSite := args[0]
 	return &SearchQuery{
 		SearchTerm: search,
 		TargetSite: targetSite,
@@ -34,14 +33,18 @@ func (s *SearchQuery) NewURL() string {
 	if err != nil {
 		log.Fatal("Error loading .env file")
 	}
-	API := os.Getenv("SEARCH_API_KEY")
 
+
+	API := os.Getenv("SEARCH_API_KEY")
+	QUERY_URL := fmt.Sprintf("https://www.googleapis.com/customsearch/v1?key=%s&cx=f29208640b52548c8&q=%s&start=1", API, s.SearchTerm)
+
+
+	
 	if s.TargetSite != ""{
-		return fmt.Sprintf("https://www.googleapis.com/customsearch/v1?key=%s&cx=f29208640b52548c8&q=%s&start=1&siteSearch=%s&siteSearchFilter=i", API, s.SearchTerm, s.TargetSite)
+		QUERY_URL += fmt.Sprintf("&siteSearch=%s&siteSearchFilter=i", s.TargetSite)
 
 	}
 
-	QUERY_URL := fmt.Sprintf("https://www.googleapis.com/customsearch/v1?key=%s&cx=f29208640b52548c8&q=%s&start=1", API, s.SearchTerm)
 	
 	return QUERY_URL
 
