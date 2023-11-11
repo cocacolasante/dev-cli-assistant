@@ -19,13 +19,16 @@ import (
 
 func main() {
 	var phrase string
+	var excludeterm string
 	var helpFlag bool 
+	var descriptionFlag bool
 
 	flag.StringVar(&phrase, "search", "google.com", "the search string")
 	targetSite := flag.String("site", "", "Search results for a specific site")
 	sort := flag.String("sort", "", "Sort result by date")
+	flag.StringVar(&excludeterm, "exclude", "", "terms to exclude")
 	flag.BoolVar(&helpFlag, "help", false, "print usage instructions")
-
+	flag.BoolVar(&descriptionFlag, "description", false, "prints cli description")
 
 	flag.Parse()
 
@@ -33,14 +36,20 @@ func main() {
 		instructions.PrintHelpMenu()
 		return
 	}
+
+	if descriptionFlag {
+		instructions.PrintDescription()
+		return
+	}
 	
 	search := url.QueryEscape(phrase)
+	exclude := url.QueryEscape(excludeterm)
 	
 	fmt.Printf("Search string is: %s\n", string(search))
 
 
 
-	queryStruct := searchQueries.NewQuery(search, *targetSite, *sort)
+	queryStruct := searchQueries.NewQuery(search, *targetSite, *sort, exclude)
 	searchQuery := queryStruct.NewURL()
 	fmt.Println(searchQuery)
 
@@ -58,8 +67,6 @@ func main() {
 		fmt.Printf("Error reading response body: %s\n", err)
 		return
 	}
-	// fmt.Println(string(body))
-
 	
 	var items searchQueries.SearchResult
 	err = json.Unmarshal(body, &items)

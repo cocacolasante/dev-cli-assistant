@@ -15,6 +15,7 @@ type SearchQuery struct {
 	TargetSite string `json:"target_site"`
 	
 	Sort string 
+	ExcludeTerms string 
 }
 
 type ResponsePayload struct {
@@ -22,11 +23,12 @@ type ResponsePayload struct {
 	Link  string `json:"link"`
 }
 
-func NewQuery(search string, targetSite string, sort string) *SearchQuery {
+func NewQuery(search string, targetSite string, sort string, excludeTerms string) *SearchQuery {
 	return &SearchQuery{
 		SearchTerm: search,
 		TargetSite: targetSite,
 		Sort: sort,
+		ExcludeTerms: excludeTerms,
 	}
 }
 
@@ -52,6 +54,9 @@ func (s *SearchQuery) NewURL() string {
 	if s.Sort == "d" {
 		QUERY_URL += "&sort=date-sdate:d"
 
+	}
+	if s.ExcludeTerms != ""{
+		QUERY_URL += fmt.Sprintf("&excludeTerms=%s", s.ExcludeTerms)
 	}
 	
 	return QUERY_URL
