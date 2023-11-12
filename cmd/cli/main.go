@@ -36,8 +36,10 @@ func main() {
 	// OPEN AI FLAGS
 	var usingAi bool
 	var content string
+	var stream bool
 	flag.BoolVar(&usingAi, "ai", false, "Use this call to get ai input")
-	flag.StringVar(&content, "question", "", "content to ask ai")
+	flag.StringVar(&content, "content", "", "content to ask ai")
+	flag.BoolVar(&stream,"stream", false, "change ai response type to stream answer")
 
 	flag.Parse()
 
@@ -58,6 +60,9 @@ func main() {
 			log.Fatal("empty ai request")
 			return 
 		}
+		if stream {
+			aiReq.NewStreamCall()
+		}
 		
 		aiReq.ApiCall()
 		return
@@ -74,6 +79,14 @@ func main() {
 	searchQuery := queryStruct.NewURL()
 	fmt.Println(searchQuery)
 
+	getGoogleResponse(searchQuery)
+
+	
+
+	
+}	
+
+func getGoogleResponse(searchQuery string) {
 	response, err := http.Get(searchQuery)
 	if err != nil {
 		fmt.Printf("Error making GET request: %s\n", err)
@@ -100,6 +113,4 @@ func main() {
 	for _, item := range items.Items {
 		fmt.Printf("Name: %s\nLink: %s\n\n", item.Title, item.Link)
 	}
-
-	
-}	
+}

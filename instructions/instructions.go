@@ -7,6 +7,9 @@ func PrintHelpMenu() {
 	fmt.Printf("             HELP MENU\n")
 	fmt.Println(" ")
 	fmt.Println("-------------------------------------")
+	fmt.Printf("             GOOGLE SEARCH COMMANDS\n")
+	fmt.Println("-------------------------------------")
+	fmt.Println(" ")
 	fmt.Printf("-search    query used for api search\n")
 	fmt.Printf("-site      filter results from this site\n")
 	fmt.Printf("-sort      sort results in ascending or descending order using a or d\n")
@@ -14,6 +17,14 @@ func PrintHelpMenu() {
 	fmt.Printf("-help      pull up help menu\n")
 	fmt.Println("-------------------------------------")
 	fmt.Println(" ")
+	fmt.Printf("             AI COMMANDS\n")
+	fmt.Println("-------------------------------------")
+	fmt.Println(" ")
+	fmt.Printf("-ai        triggers the ai call -requires content flag next\n")
+	fmt.Printf("-content   question to ask the ai\n")
+	fmt.Println("-------------------------------------")
+	fmt.Println(" ")
+	
 }
 
 func PrintDescription(){
@@ -25,6 +36,7 @@ func PrintDescription(){
 	fmt.Printf("This is a command line interface for quick good searches in the terminal\n")
 	fmt.Printf("Created with the purpose of freeing up time of having to load up a browser and then search\n")
 	fmt.Printf("Results are clickable links to speed up your workflow\n")
+	fmt.Printf("Questions can be asked directly to the AI through the command line\n")
 	fmt.Println("-------------------------------------")
 	fmt.Println(" ")
 	fmt.Println("Thanks for using!")
