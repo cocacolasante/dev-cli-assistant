@@ -48,4 +48,8 @@ You are able to google search, ask questions to chatgpt and query the blockchain
     Blockchain Query
         godev -blockchain -chain polygon -address 0x7F6C7eb6e7Ae8491212bd3E11498F2A6c5c9979B -erc20 -contract 0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619 
 
-
+# How To Use
+    Step 1: update the .env example file with the appropriate API keys
+    Step 2: run command - go build ./cmd/godev
+    Step 3: move binary into bin folder - sudo mv godev /usr/local/bin/    
+    Step 4: access commands using godev in command line
