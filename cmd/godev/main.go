@@ -12,7 +12,7 @@ import (
 	searchQueries "github.com/cocacolasante/googlecli/search"
 )
 
-
+const VERSION = "1.0.0"
 
 func main() {
 
@@ -22,6 +22,7 @@ func main() {
 	var excludeterm string
 	var helpFlag bool 
 	var descriptionFlag bool
+	var versionFlag bool
 
 	flag.StringVar(&phrase, "search", "google.com", "the search string")
 	targetSite := flag.String("site", "", "Search results for a specific site")
@@ -29,6 +30,7 @@ func main() {
 	flag.StringVar(&excludeterm, "exclude", "", "terms to exclude")
 	flag.BoolVar(&helpFlag, "help", false, "print usage instructions")
 	flag.BoolVar(&descriptionFlag, "description", false, "prints cli description")
+	flag.BoolVar(&versionFlag, "v", false, "prints cli version")
 
 	// OPEN AI FLAGS
 	var usingAi bool
@@ -64,6 +66,10 @@ func main() {
 
 	if descriptionFlag {
 		instructions.PrintDescription()
+		return
+	}
+	if versionFlag {
+		fmt.Printf("Current Version: %s\n", VERSION)
 		return
 	}
 
