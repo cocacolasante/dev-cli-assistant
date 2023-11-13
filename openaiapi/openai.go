@@ -29,7 +29,7 @@ func (a *AiRequest) ApiCall() {
 	}
 	apiKey := os.Getenv("OPEN_AI_KEY")
 	client := openai.NewClient(apiKey)
-	
+	fmt.Printf("calling ai assistant")
 	resp, err := client.CreateChatCompletion(
 		context.Background(),
 		openai.ChatCompletionRequest{
@@ -63,7 +63,7 @@ func(a *AiRequest) NewStreamCall() {
 	c := openai.NewClient(apiKey)
 	ctx := context.Background()
 
-
+	fmt.Printf("calling ai assistant")
 	req := openai.ChatCompletionRequest{
 		Model:     openai.GPT3Dot5Turbo,
 		MaxTokens: 20,
