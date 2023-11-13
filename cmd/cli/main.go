@@ -43,12 +43,14 @@ func main() {
 	var address string
 	var chain string
 	var contract string
+	var nftTokenId string
 	flag.BoolVar(&callingBc, "blockchain", false, "flag to call the blockchain")
 	flag.BoolVar(&isERC20, "erc20", false, "flag to call erc20 contract")
 	flag.BoolVar(&isERC721, "erc721", false, "flag to call erc20 contract")
 	flag.StringVar(&address, "address", "", "target address")
 	flag.StringVar(&chain, "chain", "", "target chain")
 	flag.StringVar(&contract, "contract", "", "target contract")
+	flag.StringVar(&nftTokenId, "token", "", "nft token number to check")
 
 
 	flag.Parse()
@@ -79,11 +81,15 @@ func main() {
 	}
 
 	if callingBc {
-		bcReq := blockchain.NewBcRequest(address, chain, contract)
+		bcReq := blockchain.NewBcRequest(address, chain, contract, nftTokenId)
 		if isERC20 {
 			bcReq.GetTokenBalanceOfAddress()
 			return
 		} else if isERC721 {
+			if nftTokenId != ""{
+				bcReq.GetNFTOwnerOf()
+				return
+			}
 			bcReq.GetNFTBalanceOf()
 			return
 		}else {

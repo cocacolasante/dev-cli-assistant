@@ -4,10 +4,11 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"math/big"
 	"os"
 
-	IERC20 "github.com/cocacolasante/googlecli/goierc20"
 	IERC721 "github.com/cocacolasante/googlecli/goerc721"
+	IERC20 "github.com/cocacolasante/googlecli/goierc20"
 	"github.com/ethereum/go-ethereum/accounts/abi/bind"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/ethclient"
@@ -18,14 +19,15 @@ type BcRequest struct {
 	Address string
 	Chain string
 	Contract string
-
+	TokenId string
 }
 
-func NewBcRequest(address string, chain string, contract string) *BcRequest{
+func NewBcRequest(address string, chain string, contract string, tokenId string) *BcRequest{
 	return &BcRequest{
 		Address: address,
 		Chain: chain,
 		Contract: contract,
+		TokenId: tokenId,
 	}
 }
 
@@ -89,6 +91,33 @@ func(bc *BcRequest) GetNFTBalanceOf(){
 	fmt.Printf("ERC721 Contract %s\n", contract)
 	fmt.Printf("Address balance Of: %d\n", balance)
 }
+
+func(bc *BcRequest) GetNFTOwnerOf(){
+	client := getClient(bc.Chain)
+	
+	contract := common.HexToAddress(bc.Contract)
+	instance, err := IERC721.NewIERC721(contract, client)
+	if err != nil {
+		log.Fatal(err)
+		return
+	}
+	var token big.Int
+	_, success := token.SetString(bc.TokenId, 10)
+	if !success {
+		log.Fatal("Error converting string to big.Int")
+		return
+	}
+	ownerOf, err := instance.OwnerOf(&bind.CallOpts{}, &token)
+	if err != nil {
+		log.Fatal(err)
+		return
+	}
+
+	fmt.Printf("Token Id %s\n", &token)
+	fmt.Printf("ERC721 Contract %s\n", contract)
+	fmt.Printf("Address Owner Of: %s\n", ownerOf)
+}
+
 
 
 
