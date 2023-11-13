@@ -48,7 +48,7 @@ func(bc *BcRequest) GetTokenBalanceOfAddress() {
 	account := common.HexToAddress(bc.Address)
 
 
-	fmt.Printf("client %s\n", client)
+	_=client
 	fmt.Printf("Account %s\n", account)
 	 
 }
