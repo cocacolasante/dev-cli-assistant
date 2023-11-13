@@ -38,10 +38,12 @@ func main() {
 
 	// blockchain flags
 	var callingBc bool
+	var isERC20 bool
 	var address string
 	var chain string
 	var contract string
 	flag.BoolVar(&callingBc, "blockchain", false, "flag to call the blockchain")
+	flag.BoolVar(&isERC20, "erc20", false, "flag to call erc20 contract")
 	flag.StringVar(&address, "address", "", "target address")
 	flag.StringVar(&chain, "chain", "", "target chain")
 	flag.StringVar(&contract, "contract", "", "target contract")
@@ -76,8 +78,14 @@ func main() {
 
 	if callingBc {
 		bcReq := blockchain.NewBcRequest(address, chain, contract)
-		bcReq.GetEthBalance()
-		return 
+		if isERC20 {
+			bcReq.GetTokenBalanceOfAddress()
+			return
+		}else {
+			bcReq.GetEthBalance()
+			return 
+
+		}
 	}
 	
 	search := url.QueryEscape(phrase)

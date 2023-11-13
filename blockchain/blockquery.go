@@ -6,6 +6,8 @@ import (
 	"log"
 	"os"
 
+	IERC20 "github.com/cocacolasante/googlecli/gosmartcontracts"
+	"github.com/ethereum/go-ethereum/accounts/abi/bind"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/ethclient"
 	"github.com/joho/godotenv"
@@ -15,6 +17,7 @@ type BcRequest struct {
 	Address string
 	Chain string
 	Contract string
+
 }
 
 func NewBcRequest(address string, chain string, contract string) *BcRequest{
@@ -46,10 +49,22 @@ func(bc *BcRequest) GetEthBalance(){
 func(bc *BcRequest) GetTokenBalanceOfAddress() {
 	client := getClient(bc.Chain)
 	account := common.HexToAddress(bc.Address)
+	contract := common.HexToAddress(bc.Contract)
+	instance, err := IERC20.NewIERC20(contract, client)
+	if err != nil {
+	  log.Fatal(err)
+	}
+	
+	balance, err := instance.BalanceOf(&bind.CallOpts{}, account)
+	if err != nil {
+	  log.Fatal(err)
+	}
+	
 
-
-	_=client
+	
 	fmt.Printf("Account %s\n", account)
+	fmt.Printf("ERC20 Contract %s\n", contract)
+	fmt.Printf("Address balance: %d\n", balance)
 	 
 }
 
@@ -91,6 +106,7 @@ func getClient(chain string) *ethclient.Client {
 		}
 
 	default:
+		
 		// default case is eth mainnet
 		err := godotenv.Load()
 		if err != nil {
