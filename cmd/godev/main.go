@@ -15,6 +15,8 @@ import (
 
 
 func main() {
+
+	Init()
 	//  GOOGLE API FLAGS
 	var phrase string
 	var excludeterm string
@@ -93,6 +95,7 @@ func main() {
 			bcReq.GetNFTBalanceOf()
 			return
 		}else {
+			
 			bcReq.GetEthBalance()
 			return 
 

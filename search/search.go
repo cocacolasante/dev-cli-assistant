@@ -4,11 +4,11 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"log"
+	// "log"
 	"net/http"
 	"os"
 
-	"github.com/joho/godotenv"
+	// "github.com/joho/godotenv"
 )
 
 const GOOGLE_URL = "https://www.googleapis.com/customsearch/v1?key=%s&q=%s}&start=%s"
@@ -36,10 +36,11 @@ func NewQuery(search string, targetSite string, sort string, excludeTerms string
 }
 
 func (s *SearchQuery) NewURL() string {
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("Error loading .env file")
-	}
+	// err := godotenv.Load()
+	
+	// if err != nil {
+	// 	log.Fatal("Error loading .env file")
+	// }
 
 	API := os.Getenv("SEARCH_API_KEY")
 	QUERY_URL := fmt.Sprintf("https://www.googleapis.com/customsearch/v1?key=%s&cx=f29208640b52548c8&q=%s&start=1", API, s.SearchTerm)

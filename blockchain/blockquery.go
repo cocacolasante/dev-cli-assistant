@@ -12,7 +12,6 @@ import (
 	"github.com/ethereum/go-ethereum/accounts/abi/bind"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/ethclient"
-	"github.com/joho/godotenv"
 )
 
 type BcRequest struct {
@@ -33,6 +32,10 @@ func NewBcRequest(address string, chain string, contract string, tokenId string)
 
 func(bc *BcRequest) GetEthBalance(){
 	client := getClient(bc.Chain)
+	if bc.Address == ""{
+		log.Fatal("No address provided")
+		return
+	}
 	account := common.HexToAddress(bc.Address)
 	balance, err := client.BalanceAt(context.Background(), account, nil)
 	if err != nil {
@@ -64,11 +67,13 @@ func(bc *BcRequest) GetTokenBalanceOfAddress() {
 	}
 	
 
-	
+	fmt.Println(" ")
+	fmt.Println("-------------------------------------")
 	fmt.Printf("Account %s\n", account)
 	fmt.Printf("ERC20 Contract %s\n", contract)
 	fmt.Printf("Address balance: %d\n", balance)
-	 
+	fmt.Println("-------------------------------------")
+	fmt.Println(" ")
 }
 
 func(bc *BcRequest) GetNFTBalanceOf(){
@@ -87,9 +92,13 @@ func(bc *BcRequest) GetNFTBalanceOf(){
 		return
 	}
 
+	fmt.Println(" ")
+	fmt.Println("-------------------------------------")
 	fmt.Printf("Account %s\n", account)
 	fmt.Printf("ERC721 Contract %s\n", contract)
 	fmt.Printf("Address balance Of: %d\n", balance)
+	fmt.Println("-------------------------------------")
+	fmt.Println(" ")
 }
 
 func(bc *BcRequest) GetNFTOwnerOf(){
@@ -112,10 +121,13 @@ func(bc *BcRequest) GetNFTOwnerOf(){
 		log.Fatal(err)
 		return
 	}
-
+	fmt.Println(" ")
+	fmt.Println("-------------------------------------")
 	fmt.Printf("Token Id %s\n", &token)
 	fmt.Printf("ERC721 Contract %s\n", contract)
 	fmt.Printf("Address Owner Of: %s\n", ownerOf)
+	fmt.Println("-------------------------------------")
+	fmt.Println(" ")
 }
 
 
@@ -128,49 +140,57 @@ func getClient(chain string) *ethclient.Client {
 	case "polygon":
 		fmt.Printf("Polygon\n")
 
-		err := godotenv.Load()
-		if err != nil {
-			log.Fatal(err)
-		}
 		fmt.Printf("Getting Blockchain Client \n")
 
 		ethURL := os.Getenv("POLYGON_MAINNET_URL")
-		client, err = ethclient.Dial(ethURL)
+		conn, err := ethclient.Dial(ethURL)
 		if err != nil {
 			log.Fatal(err)
 
 		}
+		
+		client = conn
 	case "arbitrum":
 		fmt.Printf("Arbitrum\n")
 
-		err := godotenv.Load()
-		if err != nil {
-			log.Fatal(err)
-		}
 		fmt.Printf("Getting Blockchain Client \n")
 
 		ethURL := os.Getenv("ABRITRUM_MAINNET_URL")
-		client, err = ethclient.Dial(ethURL)
+		conn, err := ethclient.Dial(ethURL)
 		if err != nil {
 			log.Fatal(err)
 
 		}
+		
+		client = conn
+	case "base":
+		fmt.Printf("Base\n")
 
+
+		fmt.Printf("Getting Blockchain Client \n")
+
+		ethURL := os.Getenv("BASE_MAINNET_URL")
+		conn, err := ethclient.Dial(ethURL)
+		if err != nil {
+			log.Fatal(err)
+
+		}
+		
+		client = conn
 	default:
 
 		// default case is eth mainnet
-		err := godotenv.Load()
-		if err != nil {
-			log.Fatal(err)
-		}
+		
 		fmt.Printf("Getting Blockchain Client \n")
 
 		ethURL := os.Getenv("ETH_MAINNET_URL")
-		client, err = ethclient.Dial(ethURL)
+		conn, err := ethclient.Dial(ethURL)
 		if err != nil {
 			log.Fatal(err)
 
 		}
+		
+		client = conn
 
 	}
 

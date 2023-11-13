@@ -5,10 +5,8 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"log"
 	"os"
 
-	"github.com/joho/godotenv"
 	openai "github.com/sashabaranov/go-openai"
 )
 
@@ -23,10 +21,7 @@ func NewAiRequest(content string) *AiRequest{
 }
 
 func (a *AiRequest) ApiCall() {
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal(err)
-	}
+	
 	apiKey := os.Getenv("OPEN_AI_KEY")
 	client := openai.NewClient(apiKey)
 	fmt.Printf("calling ai assistant")
@@ -55,10 +50,7 @@ func (a *AiRequest) ApiCall() {
 
 
 func(a *AiRequest) NewStreamCall() {
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal(err)
-	}
+	
 	apiKey := os.Getenv("OPEN_AI_KEY")
 	c := openai.NewClient(apiKey)
 	ctx := context.Background()
