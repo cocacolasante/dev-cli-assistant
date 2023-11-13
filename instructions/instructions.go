@@ -24,6 +24,14 @@ func PrintHelpMenu() {
 	fmt.Printf("-content   question to ask the ai\n")
 	fmt.Println("-------------------------------------")
 	fmt.Println(" ")
+	fmt.Printf("             BLOCKCHAIN COMMANDS\n")
+	fmt.Println("-------------------------------------")
+	fmt.Println(" ")
+	fmt.Printf("-blockchain        triggers the blockchain call -required flag\n")
+	fmt.Printf("-address           target address to query for\n")
+	fmt.Printf("-chain             target chain to query on\n")
+	fmt.Println("-------------------------------------")
+	fmt.Println(" ")
 	
 }
 

@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/url"
 
+	"github.com/cocacolasante/googlecli/blockchain"
 	"github.com/cocacolasante/googlecli/instructions"
 	"github.com/cocacolasante/googlecli/openaiapi"
 	searchQueries "github.com/cocacolasante/googlecli/search"
@@ -35,6 +36,17 @@ func main() {
 	flag.StringVar(&content, "content", "", "content to ask ai")
 	flag.BoolVar(&stream,"stream", false, "change ai response type to stream answer")
 
+	// blockchain flags
+	var callingBc bool
+	var address string
+	var chain string
+	var contract string
+	flag.BoolVar(&callingBc, "blockchain", false, "flag to call the blockchain")
+	flag.StringVar(&address, "address", "", "target address")
+	flag.StringVar(&chain, "chain", "", "target chain")
+	flag.StringVar(&contract, "contract", "", "target contract")
+
+
 	flag.Parse()
 
 	if helpFlag {
@@ -60,6 +72,12 @@ func main() {
 		
 		aiReq.ApiCall()
 		return
+	}
+
+	if callingBc {
+		bcReq := blockchain.NewBcRequest(address, chain, contract)
+		bcReq.GetEthBalance()
+		return 
 	}
 	
 	search := url.QueryEscape(phrase)
