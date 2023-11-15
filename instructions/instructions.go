@@ -49,7 +49,7 @@ func PrintHelpMenu() {
 func PrintDescription(){
 	fmt.Println(" ")
 	fmt.Println(" ")
-	fmt.Printf("             GoogleCli\n")
+	fmt.Printf("             GoDev Cli Coding Assistant\n")
 	fmt.Println(" ")
 	fmt.Println("--------------------------------------------------------------------------")
 	fmt.Printf("This is a command line interface for quick searches, queries and ai access in the terminal\n")

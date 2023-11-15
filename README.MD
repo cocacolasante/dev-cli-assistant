@@ -68,3 +68,5 @@ I will be working on keeping this updated and adding new functionality to help a
 I will also be adding and updating the available blockchains to query
 
 If you have any ideas or improvements, send them over!
+
+Thanks for using and checking it out!

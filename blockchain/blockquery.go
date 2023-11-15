@@ -21,6 +21,7 @@ type BcRequest struct {
 	TokenId string
 }
 
+// create a new blockchain request
 func NewBcRequest(address string, chain string, contract string, tokenId string) *BcRequest{
 	return &BcRequest{
 		Address: address,
@@ -29,7 +30,7 @@ func NewBcRequest(address string, chain string, contract string, tokenId string)
 		TokenId: tokenId,
 	}
 }
-
+// get eth balance
 func(bc *BcRequest) GetEthBalance(){
 	client := getClient(bc.Chain)
 	if bc.Address == ""{
@@ -44,14 +45,14 @@ func(bc *BcRequest) GetEthBalance(){
 
 	fmt.Println(" ")
 	fmt.Println("-------------------------------------")
-	fmt.Printf("Balance: %s\n", balance) // 25893180161173005034
-	fmt.Printf("Address: %s\n",bc.Address) // 25893180161173005034
-	fmt.Printf("Chain: %s\n", bc.Chain ) // 25893180161173005034
+	fmt.Printf("Balance: %s\n", balance) 
+	fmt.Printf("Address: %s\n",bc.Address)
+	fmt.Printf("Chain: %s\n", bc.Chain )
 	fmt.Println("-------------------------------------")
 	fmt.Println(" ")
 
 }
-
+// get balance of erc20 token by address
 func(bc *BcRequest) GetTokenBalanceOfAddress() {
 	client := getClient(bc.Chain)
 	account := common.HexToAddress(bc.Address)
@@ -59,6 +60,10 @@ func(bc *BcRequest) GetTokenBalanceOfAddress() {
 	instance, err := IERC20.NewIERC20(contract, client)
 	if err != nil {
 	  log.Fatal(err)
+	}
+	if bc.Address == ""{
+		log.Fatal("No address provided")
+		return
 	}
 	
 	balance, err := instance.BalanceOf(&bind.CallOpts{}, account)
@@ -76,6 +81,7 @@ func(bc *BcRequest) GetTokenBalanceOfAddress() {
 	fmt.Println(" ")
 }
 
+// gets total number of nfts for specified contract owned by one suer
 func(bc *BcRequest) GetNFTBalanceOf(){
 	client := getClient(bc.Chain)
 	account := common.HexToAddress(bc.Address)
@@ -83,6 +89,10 @@ func(bc *BcRequest) GetNFTBalanceOf(){
 	instance, err := IERC721.NewIERC721(contract, client)
 	if err != nil {
 		log.Fatal(err)
+		return
+	}
+	if bc.Address == ""{
+		log.Fatal("No address provided")
 		return
 	}
 	
@@ -101,6 +111,7 @@ func(bc *BcRequest) GetNFTBalanceOf(){
 	fmt.Println(" ")
 }
 
+// get owner of nft token by id
 func(bc *BcRequest) GetNFTOwnerOf(){
 	client := getClient(bc.Chain)
 	
