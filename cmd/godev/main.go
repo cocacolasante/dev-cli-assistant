@@ -14,7 +14,7 @@ import (
 	searchQueries "github.com/cocacolasante/googlecli/search"
 )
 
-const VERSION = "1.0.0"
+const VERSION = "1.0.1"
 
 func main() {
 
@@ -26,7 +26,7 @@ func main() {
 	var descriptionFlag bool
 	var versionFlag bool
 
-	flag.StringVar(&phrase, "search", "google.com", "the search string")
+	flag.StringVar(&phrase, "search", "", "the search string")
 	targetSite := flag.String("site", "", "Search results for a specific site")
 	sort := flag.String("sort", "", "Sort result by date")
 	flag.StringVar(&excludeterm, "exclude", "", "terms to exclude")
@@ -122,13 +122,16 @@ func main() {
 		}
 	}
 
-	if isHttp {
-		
+	if isHttp {		
 		newReq := httpflags.NewHtpReq(urlString, "", strings.ToUpper(methodType))
 		newReq.MakeRequest()
 		return
 	}
 	
+	if phrase == ""{
+		log.Fatal("no search phrase")
+		return
+	}
 	search := url.QueryEscape(phrase)
 	exclude := url.QueryEscape(excludeterm)
 	
