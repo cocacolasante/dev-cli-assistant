@@ -67,10 +67,6 @@ func main() {
 	flag.StringVar(&methodType, "method", "GET", "method type")
 	
 
-
-
-
-
 	flag.Parse()
 
 	if helpFlag {

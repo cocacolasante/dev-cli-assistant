@@ -37,6 +37,14 @@ You are able to google search, ask questions to chatgpt and query the blockchain
 	-erc721            flag to query ERC721 tokens
 	-token             flag for nft token id
 	-------------------------------------
+	             HTTP REQUEST COMMANDS
+	--------------------------------------------------------------------------
+	 
+	-http              flag to trigger http request\n
+	-url               url to make request to\n
+	-api               api key for request\n
+	-method            method for http request\n
+	--------------------------------------------------------------------------
 	             OTHER COMMANDS
 	-------------------------------------
 	-help             prints the help menu
@@ -54,6 +62,9 @@ You are able to google search, ask questions to chatgpt and query the blockchain
     
     Blockchain Query
         godev -blockchain -chain polygon -address 0x7F6C7eb6e7Ae8491212bd3E11498F2A6c5c9979B -erc20 -contract 0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619 
+	http request
+		godev -http -url https://catfact.ninja/fact -method get
+		
 
 # How To Use
     Step 1: update the .init.example.go file with the correct api keys and remove .example from the name (will compile and add env variables at build time)

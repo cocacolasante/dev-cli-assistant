@@ -51,7 +51,7 @@ func(hq *HTTPReq) MakeRequest(){
 		// Print the response body
 		fmt.Println("Response Body:", string(body))
 	case http.MethodPost:
-		fmt.Println("POST Method code")
+		fmt.Println("POST Method code not implemented yet")
 		return 
 	default:
 		log.Fatalln("Invalid HTTP Method")
