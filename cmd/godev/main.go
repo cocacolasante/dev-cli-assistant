@@ -5,8 +5,10 @@ import (
 	"fmt"
 	"log"
 	"net/url"
+	"strings"
 
 	"github.com/cocacolasante/googlecli/blockchain"
+	"github.com/cocacolasante/googlecli/httpflags"
 	"github.com/cocacolasante/googlecli/instructions"
 	"github.com/cocacolasante/googlecli/openaiapi"
 	searchQueries "github.com/cocacolasante/googlecli/search"
@@ -55,6 +57,18 @@ func main() {
 	flag.StringVar(&chain, "chain", "", "target chain")
 	flag.StringVar(&contract, "contract", "", "target contract")
 	flag.StringVar(&nftTokenId, "token", "", "nft token number to check")
+	
+	// http flags
+	var isHttp bool
+	var urlString string
+	var methodType string
+	flag.BoolVar(&isHttp, "http", false, "flag to make http request")
+	flag.StringVar(&urlString, "url", "", "target url")
+	flag.StringVar(&methodType, "method", "GET", "method type")
+	
+
+
+
 
 
 	flag.Parse()
@@ -106,6 +120,13 @@ func main() {
 			return 
 
 		}
+	}
+
+	if isHttp {
+		
+		newReq := httpflags.NewHtpReq(urlString, "", strings.ToUpper(methodType))
+		newReq.MakeRequest()
+		return
 	}
 	
 	search := url.QueryEscape(phrase)
