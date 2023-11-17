@@ -7,27 +7,24 @@ import (
 	"net/http"
 )
 
-
-type HTTPReq struct{
-	Url string
-	ApiKey string 
+type HTTPReq struct {
+	Url    string
+	ApiKey string
 	Method string
-
-
 }
 
-func NewHtpReq(url string, apikey string, method string) *HTTPReq{
+func NewHtpReq(url string, apikey string, method string) *HTTPReq {
 	return &HTTPReq{
-		Url: url,
+		Url:    url,
 		ApiKey: apikey,
 		Method: method,
 	}
 }
 
-func(hq *HTTPReq) MakeRequest(){
-	switch hq.Method{
+func (hq *HTTPReq) MakeRequest() {
+	switch hq.Method {
 	case http.MethodGet:
-		request, err :=  http.NewRequest(hq.Method, hq.Url, nil)
+		request, err := http.NewRequest(hq.Method, hq.Url, nil)
 		if err != nil {
 			log.Println("Error creating request:", err)
 			return
@@ -40,22 +37,22 @@ func(hq *HTTPReq) MakeRequest(){
 			return
 		}
 		defer response.Body.Close()
-	
+
 		// Read the response body
 		body, err := io.ReadAll(response.Body)
 		if err != nil {
 			fmt.Println("Error reading response body:", err)
 			return
 		}
-	
+
 		// Print the response body
 		fmt.Println("Response Body:", string(body))
 	case http.MethodPost:
 		fmt.Println("POST Method code not implemented yet")
-		return 
+		return
 	default:
 		log.Fatalln("Invalid HTTP Method")
-		
+
 	}
 
 }

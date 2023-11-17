@@ -22,7 +22,7 @@ func main() {
 	//  GOOGLE API FLAGS
 	var phrase string
 	var excludeterm string
-	var helpFlag bool 
+	var helpFlag bool
 	var descriptionFlag bool
 	var versionFlag bool
 
@@ -40,7 +40,7 @@ func main() {
 	var stream bool
 	flag.BoolVar(&usingAi, "ai", false, "Use this call to get ai input")
 	flag.StringVar(&content, "content", "", "content to ask ai")
-	flag.BoolVar(&stream,"stream", false, "change ai response type to stream answer")
+	flag.BoolVar(&stream, "stream", false, "change ai response type to stream answer")
 
 	// blockchain flags
 	var callingBc bool
@@ -57,7 +57,7 @@ func main() {
 	flag.StringVar(&chain, "chain", "", "target chain")
 	flag.StringVar(&contract, "contract", "", "target contract")
 	flag.StringVar(&nftTokenId, "token", "", "nft token number to check")
-	
+
 	// http flags
 	var isHttp bool
 	var urlString string
@@ -65,7 +65,6 @@ func main() {
 	flag.BoolVar(&isHttp, "http", false, "flag to make http request")
 	flag.StringVar(&urlString, "url", "", "target url")
 	flag.StringVar(&methodType, "method", "GET", "method type")
-	
 
 	flag.Parse()
 
@@ -84,16 +83,16 @@ func main() {
 	}
 
 	if usingAi {
-		
+
 		aiReq := openaiapi.NewAiRequest(content)
-		if aiReq.Content == ""{
+		if aiReq.Content == "" {
 			log.Fatal("empty ai request")
-			return 
+			return
 		}
 		if stream {
 			aiReq.NewStreamCall()
 		}
-		
+
 		aiReq.ApiCall()
 		return
 	}
@@ -104,36 +103,34 @@ func main() {
 			bcReq.GetTokenBalanceOfAddress()
 			return
 		} else if isERC721 {
-			if nftTokenId != ""{
+			if nftTokenId != "" {
 				bcReq.GetNFTOwnerOf()
 				return
 			}
 			bcReq.GetNFTBalanceOf()
 			return
-		}else {
-			
+		} else {
+
 			bcReq.GetEthBalance()
-			return 
+			return
 
 		}
 	}
 
-	if isHttp {		
+	if isHttp {
 		newReq := httpflags.NewHtpReq(urlString, "", strings.ToUpper(methodType))
 		newReq.MakeRequest()
 		return
 	}
-	
-	if phrase == ""{
+
+	if phrase == "" {
 		log.Fatal("no search phrase")
 		return
 	}
 	search := url.QueryEscape(phrase)
 	exclude := url.QueryEscape(excludeterm)
-	
+
 	fmt.Printf("Search string is: %s\n", string(search))
-
-
 
 	queryStruct := searchQueries.NewQuery(search, *targetSite, *sort, exclude)
 	searchQuery := queryStruct.NewURL()
@@ -141,8 +138,4 @@ func main() {
 
 	searchQueries.GetGoogleResponse(searchQuery)
 
-	
-
-	
-}	
-
+}
